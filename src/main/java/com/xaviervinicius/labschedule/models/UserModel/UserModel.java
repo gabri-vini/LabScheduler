@@ -1,9 +1,13 @@
 package com.xaviervinicius.labschedule.models.UserModel;
 
+import com.xaviervinicius.labschedule.models.scheduleModel.ScheduleModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -11,7 +15,6 @@ import java.util.UUID;
 @Entity
 @Table (name = "tb_user")
 public class UserModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -24,5 +27,15 @@ public class UserModel {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY)
+    private List<ScheduleModel> schedules;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    @CreationTimestamp
+    private Instant createdAt;
 
 }
