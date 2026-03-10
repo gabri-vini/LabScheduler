@@ -13,5 +13,4 @@ public record LabDto(
         List<UUID> schedulesIds,
         Instant operationReturnTime,
         Instant createdAt
-) {
-}
+) {}
