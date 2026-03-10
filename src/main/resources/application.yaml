@@ -1,3 +1,11 @@
 spring:
   application:
     name: LabSchedule
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
