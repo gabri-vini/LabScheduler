@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -426,16 +426,15 @@
             <p class="card-subtitle">Preencha os dados para criar uma nova conta no sistema CEEP.</p>
         </div>
 
-        <form th:action="@{/users}" th:object="${user}" method="post" class="form" id="createUserForm" novalidate>
+        <form action="/users" method="post" class="form" id="createUserForm" novalidate>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">Nome completo</label>
                     <div class="input-wrapper">
                         <span class="input-icon">✦</span>
-                        <input type="text" id="name" th:field="*{name}" placeholder="Seu nome">
+                        <input type="text" id="name" id="name" name="name" placeholder="Seu nome">
                     </div>
-                    <div class="error" th:errors="*{name}"></div>
                     <div class="client-error" id="err-name"></div>
                 </div>
 
@@ -443,9 +442,8 @@
                     <label for="email">E-mail</label>
                     <div class="input-wrapper">
                         <span class="input-icon">@</span>
-                        <input type="email" id="email" th:field="*{email}" placeholder="seu@email.com">
+                        <input type="email" id="email" id="email" name="email" placeholder="seu@email.com">
                     </div>
-                    <div class="error" th:errors="*{email}"></div>
                     <div class="client-error" id="err-email"></div>
                 </div>
             </div>
@@ -455,10 +453,9 @@
                     <label for="password">Senha</label>
                     <div class="input-wrapper">
                         <span class="input-icon">◉</span>
-                        <input type="password" id="password" th:field="*{password}" placeholder="••••••••">
+                        <input type="password" id="password" id="password" name="password" placeholder="••••••••">
                         <button type="button" class="toggle-password" data-target="password" aria-label="Mostrar senha">👁</button>
                     </div>
-                    <div class="error" th:errors="*{password}"></div>
                 </div>
 
                 <!-- CHECKLIST SENHA -->
@@ -475,10 +472,9 @@
                     <label for="confirmPassword">Confirmar senha</label>
                     <div class="input-wrapper">
                         <span class="input-icon">◉</span>
-                        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" placeholder="••••••••">
+                        <input type="password" id="confirmPassword" id="confirmPassword" name="confirmPassword" placeholder="••••••••">
                         <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Mostrar senha">👁</button>
                     </div>
-                    <div class="error" th:errors="*{confirmPassword}"></div>
                     <div class="match-hint" id="matchHint"></div>
                 </div>
             </div>
@@ -486,14 +482,13 @@
             <div class="form-group form-group--full">
                 <label for="role">Perfil de acesso</label>
                 <div class="select-wrapper">
-                    <select id="role" th:field="*{role}">
+                    <select id="role" id="role" name="role">
                         <option value="">Selecione um perfil</option>
                         <option value="ADMIN">ADMIN — Administrador</option>
                         <option value="USER">USER — Usuário padrão</option>
                     </select>
                     <span class="select-arrow">▾</span>
                 </div>
-                <div class="error" th:errors="*{role}"></div>
                 <div class="client-error" id="err-role"></div>
             </div>
 
