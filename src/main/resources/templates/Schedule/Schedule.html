@@ -634,7 +634,7 @@
 <!-- TOP BAR -->
 <div class="top-bar">
     <span>📞 41 3627-6955</span>
-    <span>✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="385b5d5d48785b5d5d4816565d4c165a4a">[email&#160;protected]</a></span>
+    <span>✉ ceep@ceep.net.br</span>
 </div>
 
 <!-- NAVBAR -->
@@ -1167,19 +1167,32 @@
         const err = (id, msg) => { document.getElementById(id).textContent = msg; ok = false; };
         const clr = (id)      => { document.getElementById(id).textContent = ''; };
 
-        if (!currentLab)  { err('err-data', 'Selecione um laboratório'); }
-        if (!currentDate) err('err-data',    'Selecione uma data');    else clr('err-data');
-        if (!currentTime) err('err-horario', 'Selecione um horário');  else clr('err-horario');
+        if (!currentLab) {
+            // Scroll to lab cards
+            document.querySelector('.lab-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            err('err-data', 'Selecione um laboratório primeiro');
+        }
+        if (!currentDate) err('err-data', 'Selecione uma data'); else if (currentLab) clr('err-data');
+        if (!currentTime) err('err-horario', 'Selecione um horário'); else clr('err-horario');
 
         const prof   = document.getElementById('professor').value.trim();
         const disc   = document.getElementById('disciplina').value.trim();
         const turma  = document.getElementById('turma').value.trim();
         const alunos = document.getElementById('numAlunos').value;
 
-        if (!prof)              err('err-professor',  'Informe o nome do professor'); else clr('err-professor');
-        if (!disc)              err('err-disciplina', 'Informe a disciplina');        else clr('err-disciplina');
-        if (!turma)             err('err-turma',      'Informe a turma');             else clr('err-turma');
-        if (!alunos || alunos < 1) err('err-alunos', 'Informe o número de alunos');  else clr('err-alunos');
+        const labCapacity = { lingua: 30, multi: 40, info: 35 };
+        const maxCap = currentLab ? labCapacity[currentLab] : 40;
+
+        if (!prof || prof.length < 3)    err('err-professor',  'Informe o nome completo do professor'); else clr('err-professor');
+        if (!disc || disc.length < 2)    err('err-disciplina', 'Informe a disciplina');                 else clr('err-disciplina');
+        if (!turma || turma.length < 2)  err('err-turma',      'Informe a turma');                     else clr('err-turma');
+        if (!alunos || Number(alunos) < 1) {
+            err('err-alunos', 'Informe o número de alunos');
+        } else if (Number(alunos) > maxCap) {
+            err('err-alunos', `Capacidade máxima deste laboratório: ${maxCap} alunos`);
+        } else {
+            clr('err-alunos');
+        }
 
         // double-check se horário foi ocupado no intervalo
         if (currentLab && currentDate && currentTime && isOccupied(currentLab, currentDate, currentTime)) {
@@ -1203,7 +1216,7 @@
 
         advanceStep(4);
 
-        // Limpa formulário mas mantém lab/data selecionados para facilitar novo agendamento
+        // Limpa campos mas mantém lab/data para facilitar novos agendamentos no mesmo dia
         document.getElementById('professor').value  = '';
         document.getElementById('disciplina').value = '';
         document.getElementById('turma').value      = '';
@@ -1211,6 +1224,14 @@
         document.getElementById('obs').value        = '';
         currentTime = null;
         document.getElementById('selectedTime').value = '';
+        maxStep = 2; // mantém lab+data marcados, reseta a partir do passo 3
+        document.querySelectorAll('.input-wrapper input, .select-wrapper select').forEach(el => {
+            el.classList.remove('valid','invalid');
+        });
+        ['err-professor','err-disciplina','err-turma','err-alunos','err-horario'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '';
+        });
         updateSummary();
     });
 
@@ -1219,7 +1240,7 @@
     ──────────────────────────────────────── */
     function resetForm() {
         form.reset();
-        currentLab = null; currentDate = null; currentTime = null; maxStep = 1;
+        currentLab = null; currentDate = null; currentTime = null; maxStep = 0;
         document.querySelectorAll('.lab-card').forEach(c => c.classList.remove('selected'));
         document.getElementById('panelTitle').textContent       = 'Selecione um laboratório acima';
         document.getElementById('panelDot').style.background    = 'var(--gray-300)';
@@ -1230,6 +1251,16 @@
             if (i === 1) s.classList.add('active');
         }
         for (let i = 1; i <= 3; i++) document.getElementById('div'+i).classList.remove('done');
+        // Clear all field errors
+        ['err-data','err-horario','err-professor','err-disciplina','err-turma','err-alunos'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '';
+        });
+        // Clear input states
+        document.querySelectorAll('.input-wrapper input, .select-wrapper select').forEach(el => {
+            el.classList.remove('valid','invalid');
+        });
+        advanceStep(1);
         renderSlots();
         renderCalendar();
     }

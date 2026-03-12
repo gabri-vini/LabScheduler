@@ -393,7 +393,7 @@
 <!-- TOPO -->
 <div class="top-bar">
     <span>📞 41 3627-6955</span>
-    <span>✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f497919184b497919184da9a9180da9686">[email&#160;protected]</a></span>
+    <span>✉ ceep@ceep.net.br</span>
 </div>
 
 <!-- NAVBAR -->
@@ -433,7 +433,7 @@
                     <label for="name">Nome completo</label>
                     <div class="input-wrapper">
                         <span class="input-icon">✦</span>
-                        <input type="text" id="name" id="name" name="name" placeholder="Seu nome">
+                        <input type="text" id="name" name="name" placeholder="Seu nome">
                     </div>
                     <div class="client-error" id="err-name"></div>
                 </div>
@@ -442,7 +442,7 @@
                     <label for="email">E-mail</label>
                     <div class="input-wrapper">
                         <span class="input-icon">@</span>
-                        <input type="email" id="email" id="email" name="email" placeholder="seu@email.com">
+                        <input type="email" id="email" name="email" placeholder="seu@email.com">
                     </div>
                     <div class="client-error" id="err-email"></div>
                 </div>
@@ -453,9 +453,10 @@
                     <label for="password">Senha</label>
                     <div class="input-wrapper">
                         <span class="input-icon">◉</span>
-                        <input type="password" id="password" id="password" name="password" placeholder="••••••••">
+                        <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password">
                         <button type="button" class="toggle-password" data-target="password" aria-label="Mostrar senha">👁</button>
                     </div>
+                    <div class="client-error" id="err-password"></div>
                 </div>
 
                 <!-- CHECKLIST SENHA -->
@@ -472,7 +473,7 @@
                     <label for="confirmPassword">Confirmar senha</label>
                     <div class="input-wrapper">
                         <span class="input-icon">◉</span>
-                        <input type="password" id="confirmPassword" id="confirmPassword" name="confirmPassword" placeholder="••••••••">
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" autocomplete="new-password">
                         <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Mostrar senha">👁</button>
                     </div>
                     <div class="match-hint" id="matchHint"></div>
@@ -482,7 +483,7 @@
             <div class="form-group form-group--full">
                 <label for="role">Perfil de acesso</label>
                 <div class="select-wrapper">
-                    <select id="role" id="role" name="role">
+                    <select id="role" name="role">
                         <option value="">Selecione um perfil</option>
                         <option value="ADMIN">ADMIN — Administrador</option>
                         <option value="USER">USER — Usuário padrão</option>
@@ -537,11 +538,11 @@
 
         // Password patterns (same as backend @Pattern)
         const pwdPatterns = [
-            { re: /^.{8,}$/,                    msg: "Password must have at least 8 characters" },
-            { re: /[A-Z]/,                       msg: "Password must have an uppercase letter" },
-            { re: /[a-z]/,                       msg: "Password must have a lowercase letter" },
-            { re: /[0-9]/,                       msg: "Password must have a number" },
-            { re: /[!@#$%^&*()?":{}|<>]/,       msg: "Password must have a special character" },
+            { re: /^.{8,}$/,                    msg: "Mínimo 8 caracteres" },
+            { re: /[A-Z]/,                       msg: "Uma letra maiúscula" },
+            { re: /[a-z]/,                       msg: "Uma letra minúscula" },
+            { re: /[0-9]/,                       msg: "Um número" },
+            { re: /[!@#$%^&*()?":{}|<>]/,       msg: "Um caractere especial" },
         ];
 
         const passwordInput = document.getElementById('password');
@@ -591,11 +592,11 @@
             if (!matchHint) return;
             if (conf.length === 0) { matchHint.textContent = ''; matchHint.className = 'match-hint'; return; }
             if (pwd === conf) {
-                matchHint.textContent = '✔ Senhas coincidem';
+                matchHint.textContent = '✔ As senhas coincidem';
                 matchHint.className = 'match-hint ok';
                 confirmInput.classList.add('valid'); confirmInput.classList.remove('invalid');
             } else {
-                matchHint.textContent = '✖ Senhas não coincidem';
+                matchHint.textContent = '✖ As senhas não coincidem';
                 matchHint.className = 'match-hint fail';
                 confirmInput.classList.add('invalid'); confirmInput.classList.remove('valid');
             }
@@ -625,8 +626,15 @@
         const errName   = document.getElementById('err-name');
         if (nameInput && errName) {
             nameInput.addEventListener('blur', () => {
-                if (!nameInput.value.trim()) {
-                    errName.textContent = "Name can't be missing";
+                const val = nameInput.value.trim();
+                if (!val) {
+                    errName.textContent = 'Nome é obrigatório';
+                    nameInput.classList.add('invalid'); nameInput.classList.remove('valid');
+                } else if (val.length < 3) {
+                    errName.textContent = 'Nome deve ter pelo menos 3 caracteres';
+                    nameInput.classList.add('invalid'); nameInput.classList.remove('valid');
+                } else if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(val)) {
+                    errName.textContent = 'Nome deve conter apenas letras';
                     nameInput.classList.add('invalid'); nameInput.classList.remove('valid');
                 } else {
                     errName.textContent = '';
@@ -648,10 +656,10 @@
         if (emailInput && errEmail) {
             emailInput.addEventListener('blur', () => {
                 if (!emailInput.value.trim()) {
-                    errEmail.textContent = "Email can't be missing";
+                    errEmail.textContent = "E-mail é obrigatório";
                     emailInput.classList.add('invalid'); emailInput.classList.remove('valid');
                 } else if (!emailRe.test(emailInput.value)) {
-                    errEmail.textContent = "Given email isn't a valid email";
+                    errEmail.textContent = "E-mail inválido";
                     emailInput.classList.add('invalid'); emailInput.classList.remove('valid');
                 } else {
                     errEmail.textContent = '';
@@ -672,7 +680,7 @@
         if (roleSelect && errRole) {
             roleSelect.addEventListener('change', () => {
                 if (!roleSelect.value) {
-                    errRole.textContent = "role can't be missing";
+                    errRole.textContent = "Selecione um perfil de acesso";
                     roleSelect.classList.add('invalid'); roleSelect.classList.remove('valid');
                 } else {
                     errRole.textContent = '';
@@ -689,34 +697,47 @@
                 let hasError = false;
 
                 if (nameInput && !nameInput.value.trim()) {
-                    if (errName) errName.textContent = "Name can't be missing";
+                    if (errName) errName.textContent = "Nome é obrigatório";
                     nameInput.classList.add('invalid'); hasError = true;
                 }
                 if (emailInput) {
                     if (!emailInput.value.trim()) {
-                        if (errEmail) errEmail.textContent = "Email can't be missing";
+                        if (errEmail) errEmail.textContent = "E-mail é obrigatório";
                         emailInput.classList.add('invalid'); hasError = true;
                     } else if (!emailRe.test(emailInput.value)) {
-                        if (errEmail) errEmail.textContent = "Given email isn't a valid email";
+                        if (errEmail) errEmail.textContent = "E-mail inválido";
                         emailInput.classList.add('invalid'); hasError = true;
                     }
                 }
                 if (passwordInput) {
-                    const failedRule = pwdPatterns.find(p => !p.re.test(passwordInput.value));
-                    if (!passwordInput.value || failedRule) {
+                    if (!passwordInput.value) {
+                        const errPwd = document.getElementById('err-password');
+                        if (errPwd) errPwd.textContent = 'Senha é obrigatória';
                         passwordInput.classList.add('invalid');
                         if (checklist) checklist.style.display = 'flex';
-                        updateChecklist(passwordInput.value);
                         hasError = true;
+                    } else {
+                        const failedRule = pwdPatterns.find(p => !p.re.test(passwordInput.value));
+                        if (failedRule) {
+                            const errPwd = document.getElementById('err-password');
+                            if (errPwd) errPwd.textContent = failedRule.msg;
+                            passwordInput.classList.add('invalid');
+                            if (checklist) checklist.style.display = 'flex';
+                            updateChecklist(passwordInput.value);
+                            hasError = true;
+                        } else {
+                            const errPwd = document.getElementById('err-password');
+                            if (errPwd) errPwd.textContent = '';
+                        }
                     }
                 }
                 if (passwordInput && confirmInput && passwordInput.value !== confirmInput.value) {
                     confirmInput.classList.add('invalid');
-                    if (matchHint) { matchHint.textContent = '✖ Senhas não coincidem'; matchHint.className = 'match-hint fail'; }
+                    if (matchHint) { matchHint.textContent = '✖ As senhas não coincidem'; matchHint.className = 'match-hint fail'; }
                     hasError = true;
                 }
                 if (roleSelect && !roleSelect.value) {
-                    if (errRole) errRole.textContent = "role can't be missing";
+                    if (errRole) errRole.textContent = "Selecione um perfil de acesso";
                     roleSelect.classList.add('invalid'); hasError = true;
                 }
 

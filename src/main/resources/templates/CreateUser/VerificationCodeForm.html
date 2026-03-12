@@ -558,16 +558,16 @@
 </div>
 
 <script>
-    /* ── Email da pessoa (passado pelo backend) ──
-       Em produção, substituir pelo valor real do servidor.
-       Ex: const userEmail = /*[[${user.email}]]*/ 'usuario@email.com'; */
-    const userEmail = getEmailFromUrl() || 'usuario@email.com';
-    document.getElementById('displayEmail').textContent = userEmail;
-
+    // Email passado via URL: ?email=usuario@email.com
+    // Em produção com backend, substituir por: const userEmail = 'valor_do_servidor';
     function getEmailFromUrl() {
         const params = new URLSearchParams(window.location.search);
         return params.get('email') || null;
     }
+
+    const userEmail = getEmailFromUrl() || 'usuario@email.com';
+    const emailEl = document.getElementById('displayEmail');
+    if (emailEl) emailEl.textContent = userEmail;
 
     /* ── Inputs de código ── */
     const inputs = Array.from(document.querySelectorAll('.code-input'));
@@ -639,37 +639,45 @@
     }
 
     /* ── Verificar código ── */
+    let isExpired = false;
+
     function verifyCode() {
         const code = getCode();
         if (code.length < 6) return;
+        if (isExpired) {
+            codeError.textContent = 'O código expirou. Solicite um novo.';
+            return;
+        }
 
-        // Animação de loading
         btnVerify.disabled = true;
-        btnVerify.innerHTML = '<span>Verificando...</span><span style="animation:spin .8s linear infinite;display:inline-block">⏳</span>';
+        btnVerify.innerHTML = '<span>Verificando...</span><span style="display:inline-block">⏳</span>';
+        codeError.textContent = '';
 
+        // SIMULAÇÃO — substituir pelo fetch() ao backend em produção:
+        // fetch('/verify-code', { method:'POST', body: JSON.stringify({ email: userEmail, code }) })
+        //   .then(r => r.json()).then(data => { if(data.valid) showSuccess(); else showError(); });
         setTimeout(() => {
-            // SIMULAÇÃO — em produção, fazer POST para o backend
-            // O backend deve retornar sucesso ou erro
-            const isValid = true; // substitua pela resposta real do servidor
+            const isValid = (code === '123456'); // REMOVER em produção — validação feita pelo backend
 
             if (isValid) {
                 inputs.forEach(i => i.classList.add('success'));
                 setTimeout(() => {
-                    document.getElementById('formState').style.display    = 'none';
+                    document.getElementById('formState').style.display = 'none';
                     document.getElementById('successState').classList.add('visible');
                 }, 600);
             } else {
                 inputs.forEach(i => {
+                    i.value = '';
+                    i.classList.remove('filled','success');
                     i.classList.add('error-shake');
-                    i.classList.remove('filled');
-                    setTimeout(() => { i.value = ''; i.classList.remove('error-shake'); }, 500);
                 });
-                codeError.textContent = 'Código inválido. Tente novamente.';
-                inputs[0].focus();
+                setTimeout(() => inputs.forEach(i => i.classList.remove('error-shake')), 500);
+                codeError.textContent = 'Código inválido. Verifique e tente novamente.';
                 btnVerify.disabled = false;
                 btnVerify.innerHTML = '<span>Verificar código</span><span class="btn-arrow">→</span>';
+                inputs[0].focus();
             }
-        }, 1200);
+        }, 1000);
     }
 
     // Enter para confirmar
@@ -693,8 +701,13 @@
 
         if (timerSeconds <= 0) {
             clearInterval(timerInterval);
+            isExpired = true;
             timerEl.parentElement.style.display = 'none';
             resendEl.classList.add('visible');
+            codeError.textContent = 'O código expirou. Clique em "Reenviar código".';
+            inputs.forEach(i => { i.value = ''; i.classList.remove('filled','success'); });
+            btnVerify.disabled = true;
+            checkComplete();
         }
     }, 1000);
 
@@ -702,16 +715,4 @@
         // Em produção: fazer POST para reenviar o código
         resendEl.textContent = '✔ Código reenviado!';
         resendEl.style.color = 'var(--green)';
-        resendEl.disabled = true;
-        inputs.forEach(i => { i.value = ''; i.classList.remove('filled','error-shake','success'); });
-        codeError.textContent = '';
-        checkComplete();
-        inputs[0].focus();
-    }
-
-    /* ── Foco automático no primeiro campo ── */
-    window.addEventListener('load', () => inputs[0].focus());
-</script>
-
-</body>
-</html>
+        resendEl.disabled
