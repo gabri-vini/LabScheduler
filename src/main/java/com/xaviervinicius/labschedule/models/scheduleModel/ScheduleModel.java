@@ -40,4 +40,8 @@ public class ScheduleModel {
 
     @CreationTimestamp
     private Instant createdAt;
+
+    public ScheduleModel(UUID id){
+        this.id = id;
+    }
 }

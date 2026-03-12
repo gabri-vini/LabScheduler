@@ -3,6 +3,8 @@ package com.xaviervinicius.labschedule.models.UserModel;
 import com.xaviervinicius.labschedule.models.scheduleModel.ScheduleModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
+@EqualsAndHashCode(of = "id")
 @Table (name = "tb_user")
 public class UserModel {
     @Id
@@ -37,5 +41,9 @@ public class UserModel {
 
     @CreationTimestamp
     private Instant createdAt;
+
+    public UserModel(UUID id){
+        this.id = id;
+    }
 
 }
