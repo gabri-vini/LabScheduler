@@ -7,8 +7,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.TemporalAmount;
 
 @Service
 public class JWTService {
@@ -20,12 +22,25 @@ public class JWTService {
         this.issuer = issuer;
     }
 
+    public String tokenize(String value, int hoursToLive){
+        try{
+            return JWT.create()
+                    .withIssuer(this.issuer)
+                    .withSubject(value)
+                    .withExpiresAt(LocalDateTime.now()
+                            .plusHours(hoursToLive)
+                            .toInstant(ZoneOffset.ofHours(-3)))
+                    .sign(this.algorithm);
+        }catch (JWTCreationException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public String tokenize(String value){
         try{
             return JWT.create()
                     .withIssuer(this.issuer)
                     .withSubject(value)
-                    .withExpiresAt(LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3)))
                     .sign(this.algorithm);
         }catch (JWTCreationException e){
             throw new RuntimeException(e);
