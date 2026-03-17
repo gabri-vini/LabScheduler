@@ -51,6 +51,7 @@ public class AuthenticationService {
             }
             
             creatorEmail = jwtService.decode(creatorToken);
+            //TODO: Check if the admin is active, currently we're only checking if it exists
             if(!userRepository.existsByEmailAndRole(creatorEmail, Role.ADMIN)){
                 throw new UnauthorizedException();
             }
