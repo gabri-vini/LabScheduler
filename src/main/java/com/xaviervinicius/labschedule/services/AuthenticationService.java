@@ -52,7 +52,7 @@ public class AuthenticationService {
             
             creatorEmail = jwtService.decode(creatorToken);
             if(!userRepository.existsByEmailAndRole(creatorEmail, Role.ADMIN)){
-                throw new UnauthorizedException()
+                throw new UnauthorizedException();
             }
             
             log.info("Email: {} is trying to create a new admin", creatorEmail);
