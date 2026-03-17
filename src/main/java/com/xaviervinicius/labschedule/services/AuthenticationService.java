@@ -77,6 +77,11 @@ public class AuthenticationService {
     public String login(@NonNull LoginDto login){
         Authentication auth = new UsernamePasswordAuthenticationToken(login.email(), login.password());
         UserModel user =  (UserModel) authenticationManager.authenticate(auth).getPrincipal();
+
+        if(user.getState() != AccountState.ACTIVE){
+            throw new RuntimeException("User account is not allowed to make login");
+        }
+        
         return jwtService.tokenize(user.getEmail(), 3);
     }
 }
