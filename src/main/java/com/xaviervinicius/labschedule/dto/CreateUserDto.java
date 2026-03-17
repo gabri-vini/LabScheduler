@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.util.Objects;
 
 public record CreateUserDto(
         @NotBlank(message = "Name can't be missing") String name,
@@ -22,7 +23,7 @@ public record CreateUserDto(
         @NotNull(message = "role can't be missing") Role role
 ) {
     public boolean samePasswords(){
-        return password.equals(confirmPassword);
+        return Objects.equals(password, confirmPassword);
     }
     public boolean isAdminCreation(){return role == Role.ADMIN;}
 }

@@ -55,6 +55,9 @@ public class AuthenticationService {
             throw new UnauthorizedException();
         }
 
+        if(!data.samePasswords())
+            throw new RuntimeException("Passwords doesn't match");
+
         UserModel userModel = new UserModel();
         BeanUtils.copyProperties(data, userModel, "password");
 
