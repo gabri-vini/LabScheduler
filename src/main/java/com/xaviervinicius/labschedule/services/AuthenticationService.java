@@ -46,13 +46,16 @@ public class AuthenticationService {
         String creatorEmail = null;
 
         if(data.isAdminCreation()){
-            if(creatorToken != null && !creatorToken.isEmpty()){
-                creatorEmail = jwtService.decode(creatorToken);
-                if(userRepository.existsByEmailAndRole(creatorEmail, Role.ADMIN)){
-                    log.info("Email: {} is trying to create a new admin", creatorEmail);
-                }
+            if(creatorToken == null || creatorToken.isEmpty()){
+                throw new UnauthorizedException();
             }
-            throw new UnauthorizedException();
+            
+            creatorEmail = jwtService.decode(creatorToken);
+            if(!userRepository.existsByEmailAndRole(creatorEmail, Role.ADMIN)){
+                throw new UnauthorizedException()
+            }
+            
+            log.info("Email: {} is trying to create a new admin", creatorEmail);
         }
 
         if(!data.samePasswords())
