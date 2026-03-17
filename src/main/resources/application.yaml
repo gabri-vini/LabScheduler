@@ -16,8 +16,3 @@ spring:
 application:
   jwt:
     secret: ${JWT_SECRET}
-  apis:
-    mailgun:
-      key: ${MAILGUN_KEY}
-  email:
-    domain: ${APPLICATION_EMAIL_DOMAIN}

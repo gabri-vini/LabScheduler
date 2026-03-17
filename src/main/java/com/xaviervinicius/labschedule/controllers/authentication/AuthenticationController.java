@@ -5,7 +5,6 @@ import com.xaviervinicius.labschedule.controllers.authentication.responses.Regis
 import com.xaviervinicius.labschedule.dto.CreateUserDto;
 import com.xaviervinicius.labschedule.dto.LoginDto;
 import com.xaviervinicius.labschedule.services.AuthenticationService;
-import com.xaviervinicius.labschedule.services.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody @Valid CreateUserDto data,
                                                      @RequestParam(name = "creator_token", required = false) String creatorToken){
-        RegisterResponse registerResponse = authenticationService.register(data, creatorToken);
-
+        return ResponseEntity.ok(authenticationService.register(data, creatorToken));
     }
 
     @PostMapping("/login")
