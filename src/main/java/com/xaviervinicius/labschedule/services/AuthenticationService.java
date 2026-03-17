@@ -63,6 +63,8 @@ public class AuthenticationService {
         userModel.setPassword(encodedPassword);
         userModel.setState(AccountState.REGISTERING);
 
+        userModel = userRepository.save(userModel);
+
         return new RegisterResponse(mapper.map(userModel), creatorEmail);
     }
 

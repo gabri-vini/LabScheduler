@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,7 @@ public class LabModel {
     private LabState state;
 
     @OneToMany(mappedBy = "lab", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ScheduleModel> schedules;
+    private List<ScheduleModel> schedules = new ArrayList<>();
 
     @Column
     private Instant operationReturnTime;

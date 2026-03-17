@@ -35,7 +35,7 @@ public class SecurityConfigurations {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.POST, "/v1/lab-scheduler/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/lab-scheduler/auth/register", "/v1/lab-scheduler/auth/login").permitAll()
                 )
                 .addFilterBefore(loginMiddleware, UsernamePasswordAuthenticationFilter.class)
                 .build();
