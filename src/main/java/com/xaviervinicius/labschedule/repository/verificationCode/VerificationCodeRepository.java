@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface VerificationCodeRepository extends JpaRepository<VerificationCodeModel, Long> {
     Optional<VerificationCodeModel> findByCodeAndUserId(String code, UUID userId);
+
+    void deleteAllByUserId(UUID userId); //User can have only one verification code at time
 }

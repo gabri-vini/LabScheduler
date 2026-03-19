@@ -4,9 +4,11 @@ import java.util.List;
 
 public record SimpleEmail(
         List<String> to,
-        String from,
         String subject,
         String body,
         boolean isHtml
 ) {
+    public SimpleEmail bodiless(){
+        return new SimpleEmail(to, subject, "Bodiless", isHtml);
+    }
 }

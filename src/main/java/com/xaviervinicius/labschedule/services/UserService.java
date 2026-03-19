@@ -1,7 +1,6 @@
 package com.xaviervinicius.labschedule.services;
 
 import com.xaviervinicius.labschedule.dto.EnableUserDto;
-import com.xaviervinicius.labschedule.dto.UserDto;
 import com.xaviervinicius.labschedule.exceptions.InvalidCodeException;
 import com.xaviervinicius.labschedule.exceptions.UserNotFoundException;
 import com.xaviervinicius.labschedule.models.UserModel.AccountState;
@@ -24,7 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void enableUser(@NonNull EnableUserDto data){
+    public UserModel verifyAccount(@NonNull EnableUserDto data){
         var code = verificationCodeRepository.findByCodeAndUserId(data.code(), data.userId())
                 .orElseThrow(() -> new InvalidCodeException("Code is not valid"));
 
@@ -36,8 +35,11 @@ public class UserService {
         user.setState(user.getRole().requiresAdminAuthorization ? AccountState.PENDING_AUTHORIZATION : AccountState.ACTIVE);
 
         log.info("User of id {} was enabled", user.getId());
-        userRepository.save(user);
+        user = userRepository.save(user);
+
         verificationCodeRepository.delete(code);
+
+        return user;
     }
 
     public UserModel getUser(@NonNull UUID id){

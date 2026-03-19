@@ -21,3 +21,4 @@ application:
       key: ${MAILGUN_KEY}
   emails:
     domain: ${EMAIL_APPLICATION_DOMAIN}
+    from: Lab Scheduler <noreply@${EMAIL_APPLICATION_DOMAIN}>

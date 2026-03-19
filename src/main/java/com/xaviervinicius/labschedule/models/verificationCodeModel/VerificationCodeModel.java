@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 public class VerificationCodeModel {
     public static final byte MINUTES_TO_LIVE = 10;
+    final static SecureRandom random = new SecureRandom();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,7 @@ public class VerificationCodeModel {
     private UUID userId;
 
     @Column(nullable = false)
-    private String code;
+    private Long code;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -41,6 +43,10 @@ public class VerificationCodeModel {
 
     @PrePersist
     public void generateCode(){
-        this.code = UUID.randomUUID().toString().substring(0, 8);
+        this.code = random.nextLong(1000000000L, 9999999999L);
+    }
+
+    public VerificationCodeModel(UUID userId) {
+        this.userId = userId;
     }
 }
