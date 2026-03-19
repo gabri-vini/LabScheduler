@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -27,12 +27,12 @@ letter-spacing:6px;
 font-weight:bold;
 color:#4f46e5;
 margin:25px 0;
-">
+" th:text="${code}">
                             123456
                         </div>
 
                         <p style="color:#777; font-size:14px;">
-                            Este código expira em 10 minutos.
+                            Este código expira em 10 minutos
                         </p>
 
                         <p style="color:#777; font-size:14px;">
