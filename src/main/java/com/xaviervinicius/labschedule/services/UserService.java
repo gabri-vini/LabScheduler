@@ -19,13 +19,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
-    private final VerificationCodeRepository verificationCodeRepository;
+    private final VerificationCodeService verificationCodeService;
     private final UserRepository userRepository;
 
     @Transactional
     public UserModel verifyAccount(@NonNull EnableUserDto data){
-        var code = verificationCodeRepository.findByCodeAndUserId(data.code(), data.userId())
-                .orElseThrow(() -> new InvalidCodeException("Code is not valid"));
+        var code = verificationCodeService.consume(data.code(), data.userId());
 
         if(code.isExpired())
             throw new InvalidCodeException("Code is expired");
@@ -36,8 +35,6 @@ public class UserService {
 
         log.info("User of id {} was enabled", user.getId());
         user = userRepository.save(user);
-
-        verificationCodeRepository.delete(code);
 
         return user;
     }
