@@ -5,6 +5,7 @@ import com.mailgun.model.message.Message;
 import com.xaviervinicius.labschedule.dto.SimpleEmail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,10 +29,11 @@ public class EmailService {
                         log.error("Error while trying to send email", err);
                         return false;
                     }
-                    if(result.status() == 200){
+                    if(HttpStatusCode.valueOf(result.status()).is2xxSuccessful()){
                         log.info("Email sent successfully to {}", email.to());
                         return true;
                     }
+                    log.error("Could not send email. Api return code {}", result.status());
                     return false;
                 });
     }

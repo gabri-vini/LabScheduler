@@ -4,12 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.xaviervinicius.labschedule.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 
 @Service
@@ -27,9 +29,7 @@ public class JWTService {
             return JWT.create()
                     .withIssuer(this.issuer)
                     .withSubject(value)
-                    .withExpiresAt(LocalDateTime.now()
-                            .plusHours(hoursToLive)
-                            .toInstant(ZoneOffset.ofHours(-3)))
+                    .withExpiresAt(DateUtils.now().plus(hoursToLive, ChronoUnit.HOURS))
                     .sign(this.algorithm);
         }catch (JWTCreationException e){
             throw new RuntimeException(e);

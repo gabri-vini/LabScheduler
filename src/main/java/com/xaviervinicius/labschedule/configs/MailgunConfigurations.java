@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MailgunConfigs {
+public class MailgunConfigurations {
     @Bean
     MailgunMessagesApi api(@Value("${application.apis.mailgun.key}") String key){
         return MailgunClient.config(key)
