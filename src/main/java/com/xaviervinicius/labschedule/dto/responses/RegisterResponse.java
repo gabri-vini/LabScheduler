@@ -1,4 +1,4 @@
-package com.xaviervinicius.labschedule.controllers.authentication.responses;
+package com.xaviervinicius.labschedule.dto.responses;
 
 import com.xaviervinicius.labschedule.dto.UserDto;
 import jakarta.annotation.Nullable;

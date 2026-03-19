@@ -48,6 +48,9 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private AccountState state;
 
+    @Column
+    private Instant lastVerificationCodeRequest;
+
     @CreationTimestamp
     private Instant createdAt;
 
@@ -62,6 +65,11 @@ public class UserModel implements UserDetails {
         return isAdmin() ?
                 List.of(new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_ADMIN")) :
                 List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.state == AccountState.ACTIVE;
     }
 
     @Override

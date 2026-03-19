@@ -15,6 +15,7 @@ public record UserDto(
         List<UUID> schedulesIds,
         Role role,
         AccountState state,
+        Instant lastVerificationCodeRequest,
         Instant createdAt
 ) {
 }

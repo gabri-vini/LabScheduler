@@ -1,6 +1,6 @@
 package com.xaviervinicius.labschedule.services;
 
-import com.xaviervinicius.labschedule.controllers.authentication.responses.RegisterResponse;
+import com.xaviervinicius.labschedule.dto.responses.RegisterResponse;
 import com.xaviervinicius.labschedule.dto.CreateUserDto;
 import com.xaviervinicius.labschedule.dto.LoginDto;
 import com.xaviervinicius.labschedule.dto.mappers.UserMapper;
@@ -21,8 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.time.temporal.Temporal;
 
 @Service
 @RequiredArgsConstructor
@@ -51,11 +49,10 @@ public class AuthenticationService {
             }
             
             creatorEmail = jwtService.decode(creatorToken);
-            //TODO: Check if the admin is active, currently we're only checking if it exists
-            if(!userRepository.existsByEmailAndRole(creatorEmail, Role.ADMIN)){
+            //It checks if the user who is trying to create a new admin is an existent admin, and it is active
+            if(!userRepository.existsByEmailAndRoleAndState(creatorEmail, Role.ADMIN, AccountState.ACTIVE)){
                 throw new UnauthorizedException();
             }
-            
             log.info("Email: {} is trying to create a new admin", creatorEmail);
         }
 
@@ -78,6 +75,10 @@ public class AuthenticationService {
     public String login(@NonNull LoginDto login){
         Authentication auth = new UsernamePasswordAuthenticationToken(login.email(), login.password());
         UserModel user =  (UserModel) authenticationManager.authenticate(auth).getPrincipal();
+
+        if(user == null){
+            throw new IllegalStateException("Authentication principal/user is null");
+        }
 
         if(user.getState() != AccountState.ACTIVE){
             throw new RuntimeException("User account is not allowed to make login");

@@ -1,7 +1,7 @@
 package com.xaviervinicius.labschedule.controllers.authentication;
 
-import com.xaviervinicius.labschedule.controllers.authentication.responses.LoginResponse;
-import com.xaviervinicius.labschedule.controllers.authentication.responses.RegisterResponse;
+import com.xaviervinicius.labschedule.dto.responses.LoginResponse;
+import com.xaviervinicius.labschedule.dto.responses.RegisterResponse;
 import com.xaviervinicius.labschedule.dto.CreateUserDto;
 import com.xaviervinicius.labschedule.dto.LoginDto;
 import com.xaviervinicius.labschedule.services.AuthenticationService;
