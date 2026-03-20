@@ -48,14 +48,14 @@ public class EmailService {
                 .handle((result, err) -> {
                     if(err != null){
                         log.error("Error while trying to send email", err);
-                        return new SendEmailResponse(false, email.bodiless(), err.getMessage());
+                        return new SendEmailResponse(false, email, err.getMessage());
                     }
                     if(HttpStatusCode.valueOf(result.status()).is2xxSuccessful()){
                         log.info("Email sent successfully to {}", email.to());
-                        return new SendEmailResponse(true, email.bodiless(), null);
+                        return new SendEmailResponse(true, email, null);
                     }
                     log.error("Could not send email. Api return code {}", result.status());
-                    return new SendEmailResponse(false, email.bodiless(), "Email wasn't sent, api returned status: " + result.status());
+                    return new SendEmailResponse(false, email, "Email wasn't sent, api returned status: " + result.status());
                 });
     }
 
@@ -78,7 +78,12 @@ public class EmailService {
                 true
         );
 
-        return this.sendAsync(email);
+        return this.sendAsync(email)
+            .thenApply(resp -> new SendEmailResponse(
+                resp.sent(),
+                resp.email().bodiless(),
+                resp.message()
+            ));
     }
 
     public Message buildMessage(SimpleEmail email){
