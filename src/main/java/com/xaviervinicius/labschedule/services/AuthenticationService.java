@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationService {
+    public static final byte SESSION_DURATION_HOURS = 3;
+
     private final UserRepository userRepository;
     private final JWTService jwtService;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -84,6 +86,6 @@ public class AuthenticationService {
             throw new RuntimeException("User account is not allowed to make login");
         }
         
-        return jwtService.tokenize(user.getEmail(), 3);
+        return jwtService.tokenize(user.getEmail(), SESSION_DURATION_HOURS);
     }
 }
