@@ -27,7 +27,7 @@ public class VerificationCodeModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private UUID userId;
 
     @Column(nullable = false)
