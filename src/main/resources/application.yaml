@@ -23,4 +23,4 @@ application:
     domain: ${EMAIL_APPLICATION_DOMAIN}
     from: Lab Scheduler <noreply@${EMAIL_APPLICATION_DOMAIN}>
   extern:
-    frontend-ip: http://127.0.0.1:5500
+    frontend-address: ${FRONTEND_ADDRESS}

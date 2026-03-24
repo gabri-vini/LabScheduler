@@ -42,7 +42,7 @@ public class VerificationCodeService {
         return verificationCode;
     }
 
-    public VerificationCodeModel consume(String code, UUID userId){
+    public VerificationCodeModel consume(Long code, UUID userId){
         VerificationCodeModel verificationCode = verificationCodeRepository.findByCodeAndUserId(code, userId).orElseThrow(() ->
                 new NoSuchVerificationCodeException("No such verification code")
         );

@@ -36,7 +36,7 @@ public class SecurityConfigurations {
     @Bean
     @Order(0)
     SecurityFilterChain securityFilterChain(HttpSecurity http, LoginMiddleware loginMiddleware,
-                                            @Value("${application.extern.frontend-ip}") String frontendIp) throws Exception{
+                                            @Value("${application.extern.frontend-address}") String frontendIp) throws Exception{
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
         corsConfiguration.addAllowedOrigin(frontendIp);
