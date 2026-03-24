@@ -60,20 +60,20 @@ public class UserService {
     }
 
     @Transactional
-    public UserModel denyRegistering(@NonNull UUID toAuthorizeId, @NonNull UUID adminId) {
+    public UserModel denyRegistering(@NonNull UUID toDenyId, @NonNull UUID adminId) {
         checkAdmin(adminId);
-        UserModel toAuthorize = getUser(toAuthorizeId);
+        UserModel toDeny = getUser(toDenyId);
 
-        if(toAuthorize.getState() != AccountState.PENDING_AUTHORIZATION){
+        if(toDeny.getState() != AccountState.PENDING_AUTHORIZATION){
             throw new IllegalStateException("User state is not pending authorization");
         }
 
-        toAuthorize.setState(AccountState.BLOCKED);
-        userRepository.save(toAuthorize);
+        toDeny.setState(AccountState.BLOCKED);
+        userRepository.save(toDeny);
 
-        log.info("Admin with id {} denied registration of user with email {}", adminId, toAuthorize.getEmail());
+        log.info("Admin with id {} denied registration of user with email {}", adminId, toDeny.getEmail());
 
-        return toAuthorize;
+        return toDeny;
     }
 
     public List<UserModel> getUnauthorizedUsers(){
