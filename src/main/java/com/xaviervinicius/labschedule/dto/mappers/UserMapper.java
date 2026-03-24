@@ -2,6 +2,7 @@ package com.xaviervinicius.labschedule.dto.mappers;
 
 import com.xaviervinicius.labschedule.dto.CreateUserDto;
 import com.xaviervinicius.labschedule.dto.UserDto;
+import com.xaviervinicius.labschedule.dto.UserLowInfoDto;
 import com.xaviervinicius.labschedule.models.UserModel.UserModel;
 import com.xaviervinicius.labschedule.models.scheduleModel.ScheduleModel;
 import org.mapstruct.Mapper;
@@ -29,4 +30,8 @@ public interface UserMapper {
                     """
     )
     UserModel map(UserDto dto);
+
+    UserLowInfoDto mapLowInfo(UserModel user);
+
+    UserModel map(UserLowInfoDto dto);
 }
