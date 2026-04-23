@@ -1,4 +1,4 @@
-package com.xaviervinicius.labschedule.models.UserModel;
+package com.xaviervinicius.labschedule.models.userModel;
 
 import com.xaviervinicius.labschedule.models.scheduleModel.ScheduleModel;
 import jakarta.persistence.*;

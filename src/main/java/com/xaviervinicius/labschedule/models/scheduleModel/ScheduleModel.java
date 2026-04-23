@@ -1,6 +1,6 @@
 package com.xaviervinicius.labschedule.models.scheduleModel;
 
-import com.xaviervinicius.labschedule.models.UserModel.UserModel;
+import com.xaviervinicius.labschedule.models.userModel.UserModel;
 import com.xaviervinicius.labschedule.models.labModel.LabModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -33,10 +35,13 @@ public class ScheduleModel {
     private LabModel lab;
 
     @Column(nullable = false)
-    private Instant start;
+    private LocalTime start;
 
     @Column(nullable = false)
-    private Instant end;
+    private LocalTime end;
+
+    @Column(nullable = false)
+    private LocalDate date;
 
     @CreationTimestamp
     private Instant createdAt;

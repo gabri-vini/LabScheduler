@@ -1,4 +1,4 @@
-package com.xaviervinicius.labschedule.models.UserModel;
+package com.xaviervinicius.labschedule.models.userModel;
 
 public enum AccountState {
     ACTIVE,

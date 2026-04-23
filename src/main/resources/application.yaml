@@ -24,3 +24,17 @@ application:
     from: Lab Scheduler <noreply@${EMAIL_APPLICATION_DOMAIN}>
   extern:
     frontend-address: ${FRONTEND_ADDRESS}
+  classes:
+    periods:
+      MORNING:
+        start-at: "07:05:00"
+        end-at: "12:20:00"
+      AFTERNOON:
+        start-at: "13:00:00"
+        end-at: "18:15:00"
+      EVENING:
+        start-at: "18:35:00"
+        end-at: "23:00:00"
+    classes-before-breaktime: 3
+    breaktime-duration-minutes: 15
+    class-duration-minutes: 50

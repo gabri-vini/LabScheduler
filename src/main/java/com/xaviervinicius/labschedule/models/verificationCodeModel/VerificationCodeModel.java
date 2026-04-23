@@ -31,7 +31,7 @@ public class VerificationCodeModel {
     private UUID userId;
 
     @Column(nullable = false)
-    private Long code;
+    private String code;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -43,7 +43,7 @@ public class VerificationCodeModel {
 
     @PrePersist
     public void generateCode(){
-        this.code = random.nextLong(1000000000L, 9999999999L);
+        this.code = String.valueOf(random.nextInt(100000, 999999));
     }
 
     public VerificationCodeModel(UUID userId) {

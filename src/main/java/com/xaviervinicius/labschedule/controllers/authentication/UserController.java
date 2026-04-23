@@ -6,7 +6,7 @@ import com.xaviervinicius.labschedule.dto.UserLowInfoDto;
 import com.xaviervinicius.labschedule.dto.mappers.UserMapper;
 import com.xaviervinicius.labschedule.dto.responses.AuthorizeUserResponse;
 import com.xaviervinicius.labschedule.dto.responses.DenyUserResponse;
-import com.xaviervinicius.labschedule.models.UserModel.UserModel;
+import com.xaviervinicius.labschedule.models.userModel.UserModel;
 import com.xaviervinicius.labschedule.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

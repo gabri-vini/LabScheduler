@@ -1,6 +1,6 @@
 package com.xaviervinicius.labschedule.dto;
 
-import com.xaviervinicius.labschedule.models.UserModel.Role;
+import com.xaviervinicius.labschedule.models.userModel.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -3,7 +3,7 @@ package com.xaviervinicius.labschedule.services;
 import com.xaviervinicius.labschedule.exceptions.NoSuchVerificationCodeException;
 import com.xaviervinicius.labschedule.exceptions.TooManyVerificationCodeRequestsException;
 import com.xaviervinicius.labschedule.exceptions.UserNotFoundException;
-import com.xaviervinicius.labschedule.models.UserModel.UserModel;
+import com.xaviervinicius.labschedule.models.userModel.UserModel;
 import com.xaviervinicius.labschedule.models.verificationCodeModel.VerificationCodeModel;
 import com.xaviervinicius.labschedule.repository.UserRepository.UserRepository;
 import com.xaviervinicius.labschedule.repository.verificationCode.VerificationCodeRepository;
@@ -32,8 +32,7 @@ public class VerificationCodeService {
         if(!waitingTimeFinished)
             throw new TooManyVerificationCodeRequestsException("Too many requests, the waiting time did not finish");
 
-        verificationCodeRepository.deleteAllByUserId(requesterId);
-
+        verificationCodeRepository.deleteByUserId(requesterId);
         VerificationCodeModel verificationCode = verificationCodeRepository.save(new VerificationCodeModel(requesterId));
 
         user.setLastVerificationCodeRequest(verificationCode.getCreatedAt());
@@ -42,7 +41,7 @@ public class VerificationCodeService {
         return verificationCode;
     }
 
-    public VerificationCodeModel consume(Long code, UUID userId){
+    public VerificationCodeModel consume(String code, UUID userId){
         VerificationCodeModel verificationCode = verificationCodeRepository.findByCodeAndUserId(code, userId).orElseThrow(() ->
                 new NoSuchVerificationCodeException("No such verification code")
         );

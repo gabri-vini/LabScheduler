@@ -1,10 +1,9 @@
 package com.xaviervinicius.labschedule.repository.UserRepository;
 
-import com.xaviervinicius.labschedule.models.UserModel.AccountState;
-import com.xaviervinicius.labschedule.models.UserModel.Role;
-import com.xaviervinicius.labschedule.models.UserModel.UserModel;
+import com.xaviervinicius.labschedule.models.userModel.AccountState;
+import com.xaviervinicius.labschedule.models.userModel.Role;
+import com.xaviervinicius.labschedule.models.userModel.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

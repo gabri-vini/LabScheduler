@@ -1,7 +1,7 @@
 package com.xaviervinicius.labschedule.dto;
 
-import com.xaviervinicius.labschedule.models.UserModel.AccountState;
-import com.xaviervinicius.labschedule.models.UserModel.Role;
+import com.xaviervinicius.labschedule.models.userModel.AccountState;
+import com.xaviervinicius.labschedule.models.userModel.Role;
 
 import java.time.Instant;
 import java.util.List;

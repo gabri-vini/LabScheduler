@@ -21,7 +21,12 @@ public interface VerificationCodeRepository extends JpaRepository<VerificationCo
         """, nativeQuery = true)
     int deleteAllExpired(@Param("minutes") int minutes);
 
-    Optional<VerificationCodeModel> findByCodeAndUserId(Long code, UUID userId);
+    Optional<VerificationCodeModel> findByCodeAndUserId(String code, UUID userId);
 
-    void deleteAllByUserId(UUID userId); //User can have only one verification code at time
+    @Query("""
+        DELETE FROM VerificationCodeModel v
+        WHERE v.userId = :id
+        """)
+    @Modifying
+    void deleteByUserId(@Param("id") UUID userId); //User can have only one verification code at time
 }

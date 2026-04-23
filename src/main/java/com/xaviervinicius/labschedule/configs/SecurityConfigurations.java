@@ -60,7 +60,9 @@ public class SecurityConfigurations {
                                 "/v1/lab-scheduler/emails/account-verification",
                                 "/v1/lab-scheduler/user/verify-account").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/lab-scheduler/user/unauthorized-users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/v1/lab-scheduler/user/authorize-user", "/v1/lab-scheduler/user/deny-user").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,
+                                "/v1/lab-scheduler/user/authorize-user", "/v1/lab-scheduler/user/deny-user",
+                                "/v1/lab-scheduler/labs/create").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .build();
