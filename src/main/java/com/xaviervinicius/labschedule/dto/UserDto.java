@@ -7,11 +7,13 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public record UserDto(
         UUID id,
         String name,
         String email,
-        String password,
+        @JsonIgnore String password,
         List<UUID> schedulesIds,
         Role role,
         AccountState state,
