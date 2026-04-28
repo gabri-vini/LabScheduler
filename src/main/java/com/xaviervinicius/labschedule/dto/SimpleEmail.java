@@ -1,11 +1,13 @@
 package com.xaviervinicius.labschedule.dto;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 public record SimpleEmail(
         List<String> to,
         String subject,
-        String body,
+        @JsonIgnore String body,
         boolean isHtml
 ) {
     public SimpleEmail bodiless(){
