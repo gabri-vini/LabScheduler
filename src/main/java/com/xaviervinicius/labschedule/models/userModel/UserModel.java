@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -33,6 +35,7 @@ public class UserModel implements UserDetails {
     private String email;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @OneToMany(mappedBy = "scheduler", fetch = FetchType.LAZY)
@@ -47,6 +50,7 @@ public class UserModel implements UserDetails {
     private AccountState state;
 
     @Column
+    @JsonIgnore
     private Instant lastVerificationCodeRequest;
 
     @CreationTimestamp
