@@ -2,10 +2,7 @@ package com.xaviervinicius.labschedule.models.labModel;
 
 import com.xaviervinicius.labschedule.models.scheduleModel.ScheduleModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -14,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "lab_tb")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

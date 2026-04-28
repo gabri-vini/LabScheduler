@@ -2,10 +2,7 @@ package com.xaviervinicius.labschedule.models.verificationCodeModel;
 
 import com.xaviervinicius.labschedule.utils.DateUtils;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.security.SecureRandom;
@@ -15,7 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "verification_code_tb")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

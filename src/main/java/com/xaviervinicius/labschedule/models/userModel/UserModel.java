@@ -2,10 +2,7 @@ package com.xaviervinicius.labschedule.models.userModel;
 
 import com.xaviervinicius.labschedule.models.scheduleModel.ScheduleModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,7 +17,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 @Table (name = "tb_user")
 public class UserModel implements UserDetails {

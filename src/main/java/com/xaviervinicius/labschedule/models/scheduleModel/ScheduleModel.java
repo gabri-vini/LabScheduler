@@ -3,10 +3,7 @@ package com.xaviervinicius.labschedule.models.scheduleModel;
 import com.xaviervinicius.labschedule.models.userModel.UserModel;
 import com.xaviervinicius.labschedule.models.labModel.LabModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -16,7 +13,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "schedule_tb")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -33,6 +31,10 @@ public class ScheduleModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_id")
     private LabModel lab;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Period period;
 
     @Column(nullable = false)
     private LocalTime start;
